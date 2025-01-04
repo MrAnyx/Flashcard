@@ -15,3 +15,5 @@ service supervisor start
 supervisorctl reread
 supervisorctl update
 supervisorctl restart all
+
+exec docker-php-entrypoint "$@"
