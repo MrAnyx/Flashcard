@@ -11,7 +11,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY ./.docker/apache/apache.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
 COPY ./.docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY ./.docker/supervisor_wrapper.sh /usr/local/bin/supervisor_wrapper.sh
+COPY --chmod=755 ./.docker/supervisor_wrapper.sh /usr/local/bin/supervisor_wrapper.sh
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 
 FROM base AS dev
