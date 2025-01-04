@@ -29,6 +29,7 @@ services:
 
     api:
         container_name: meeio-api
+        privileged: true
         build:
             context: .
             dockerfile: Dockerfile
