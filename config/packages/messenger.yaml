@@ -17,7 +17,7 @@ framework:
             sync: "sync://"
 
         routing:
-            App\Message\SendTextEmailMessage: async
+            App\Message\SendTextEmailMessage: sync
 # when@test:
 #    framework:
 #        messenger:
