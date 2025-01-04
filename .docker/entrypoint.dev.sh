@@ -1,11 +1,6 @@
 #!/bin/bash
 set -e
 
-# Update and start supervisor service
-echo "Starting supervisor..."
-service supervisor start
-supervisorctl reread
-supervisorctl update
-supervisorctl restart all
+pm2-runtime start /usr/local/bin/ecosystem.config.cjs
 
 exec docker-php-entrypoint "$@"
