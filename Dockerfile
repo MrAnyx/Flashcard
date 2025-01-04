@@ -1,7 +1,7 @@
 FROM php:8.3.15-apache AS base
 RUN apt-get update && apt-get install -y curl gnupg
 RUN curl -sL https://deb.nodesource.com/setup_22.x | bash -
-    && apt-get -y install nodejs
+RUN apt-get -y install nodejs
 RUN npm install -g pm2
 WORKDIR /var/www/html
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
