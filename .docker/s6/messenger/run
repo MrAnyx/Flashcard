@@ -1,6 +1,0 @@
-#!/usr/bin/with-contenv sh
-set -e
-
-echo "Starting messenger:consume async"
-php /var/www/html/bin/console messenger:consume async --time-limit=3600
-echo "messenger:consume async has started"

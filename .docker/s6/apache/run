@@ -1,6 +1,0 @@
-#!/usr/bin/with-contenv sh
-set -e
-
-echo "Starting apache2"
-exec apache2-foreground
-echo "apache2 has been started"
