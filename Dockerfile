@@ -10,7 +10,7 @@ RUN install-php-extensions @composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY ./.docker/apache/apache.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
-COPY -chmod=755 ./.docker/supervisord/generate-supervisord-config.sh /usr/local/bin/generate-supervisord-config.sh
+COPY --chmod=755 ./.docker/supervisord/generate-supervisord-config.sh /usr/local/bin/generate-supervisord-config.sh
 COPY ./.docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
 
