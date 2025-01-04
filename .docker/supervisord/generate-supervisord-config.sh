@@ -1,12 +1,10 @@
 #!/bin/bash
 
-# Original supervisord configuration template
+# Generate Supervisor configuration
+echo "Generating Supervisor configuration..."
 SUPERVISORD_CONF="/etc/supervisor/conf.d/supervisord.conf"
-
-# Get all host environment variables and format them for supervisord
-ENV_VARS=$(printenv | sed 's/^\(.*\)$/\1/' | tr '\n' ',' | sed 's/,$//')
-
-# Create the final supervisord configuration
+ENV_VARS=$(printenv | awk -F= '{print $1"=\""$2"\","}' | tr -d '\n' | sed 's/,$//')
+echo "" >> $SUPERVISORD_CONF
 echo "[supervisord]" >> $SUPERVISORD_CONF
 echo "nodaemon=true" >> $SUPERVISORD_CONF
 echo "logfile=/dev/null" >> $SUPERVISORD_CONF

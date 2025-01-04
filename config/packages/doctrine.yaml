@@ -1,6 +1,8 @@
 doctrine:
     dbal:
         url: "%env(resolve:DATABASE_URL)%"
+        server_version: "%env(resolve:DATABASE_VERSION)%"
+        charset: "%env(resolve:DATABASE_CHARSET)%"
 
         # To be able to validate the database schema with the entities without having error in the doctrine_migration_version table
         # schema_filter: ~^(?!doctrine_migration_versions)~
