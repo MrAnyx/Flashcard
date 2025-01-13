@@ -105,7 +105,7 @@ class FlashcardRepository extends ServiceEntityRepository
         } elseif ($resetBy instanceof Unit) {
             $flashcardsToReset->andWhere('u2 = :resetBy');
         } elseif ($resetBy instanceof Topic) {
-            $flashcardsToReset->andWhere('u2.topic = :resetBy');
+            $flashcardsToReset->andWhere('t2 = :resetBy');
         }
 
         $qb = $this->createQueryBuilder('f');

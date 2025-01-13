@@ -91,11 +91,14 @@ class FlashcardBehaviorController extends AbstractRestController
         ReviewRepository $reviewRepository,
         #[Resource(FlashcardVoter::OWNER)] Flashcard $flashcard,
         #[CurrentUser] User $user,
+        EntityManagerInterface $em
     ): JsonResponse {
         $reviewRepository->resetBy($user, $flashcard);
         $flashcardRepository->resetBy($user, $flashcard);
 
-        return $this->json(null, Response::HTTP_NO_CONTENT);
+        $em->refresh($flashcard);
+
+        return $this->json($flashcard, context: ['groups' => ['read:flashcard:user', 'read:unit:user', 'read:topic:user']]);
     }
 
     #[Route('/flashcards/session', name: 'session_flashcard', methods: ['GET'])]
