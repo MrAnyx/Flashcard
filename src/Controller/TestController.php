@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Attribute\RelativeToEntity;
 use App\Entity\Topic;
 use App\Entity\User;
+use App\Model\Period;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
@@ -17,9 +18,8 @@ class TestController extends AbstractRestController
 {
     #[Route('/test', name: 'test')]
     public function index(
-        #[CurrentUser]
-        User $user,
+        ?Period $period
     ): JsonResponse {
-        return $this->json($user, context: ['groups' => ['read:user:user']]);
+        return $this->json($period);
     }
 }

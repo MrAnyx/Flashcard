@@ -22,7 +22,6 @@ class SessionScalarController extends AbstractRestController
     #[Route('/sessions/count/{criteria}', name: 'sessions_count', methods: ['GET'])]
     public function countSessions(
         SessionRepository $sessionRepository,
-        Request $request,
         ?Period $period,
         #[CurrentUser] User $user,
         SessionCountCriteria $criteria = SessionCountCriteria::ALL,

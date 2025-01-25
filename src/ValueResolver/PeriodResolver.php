@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\ValueResolver;
 
 use App\Model\Period;
+use DateTimeImmutable;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -17,21 +18,25 @@ class PeriodResolver implements ValueResolverInterface
             return [];
         }
 
-        if (!$request->query->has('from') || !$request->query->has('to')) {
-            return [null];
+        $initialFrom = "1970-01-01T00:00:00.000Z";
+        $initialTo = "now";
+
+        $from = $request->query->get('from', $initialFrom);
+        $to = $request->query->get('to', $initialTo);
+
+        try {
+            $from = new \DateTimeImmutable($from);
+        } catch (\Exception) {
+            $from = new DateTimeImmutable($initialFrom);
         }
 
-        $from = $request->query->getString('from');
-        $to = $request->query->getString('to');
-
-        $fromDateTime = \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $from);
-        $toDateTime = \DateTimeImmutable::createFromFormat(\DateTimeImmutable::ATOM, $to);
-
-        if (!$fromDateTime || !$toDateTime) {
-            return [null];
+        try {
+            $to = new \DateTimeImmutable($to);
+        } catch (\Exception) {
+            $to = new DateTimeImmutable($initialTo);
         }
 
-        $period = new Period($fromDateTime, $toDateTime);
+        $period = new Period($from, $to);
 
         return [$period];
     }
