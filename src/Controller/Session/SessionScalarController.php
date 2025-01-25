@@ -11,7 +11,6 @@ use App\Entity\User;
 use App\Enum\CountCriteria\SessionCountCriteria;
 use App\Model\Period;
 use App\Repository\SessionRepository;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 

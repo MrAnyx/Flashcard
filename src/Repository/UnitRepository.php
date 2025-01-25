@@ -60,7 +60,6 @@ class UnitRepository extends ServiceEntityRepository
             ->where('u.topic = :topic')
             ->setParameter('topic', $topic);
 
-
         if ($filter !== null) {
             $this->addFilter($query, 'u', $filter);
         }
