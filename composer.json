@@ -2,6 +2,7 @@
     "name": "meeio/backend",
     "description": "Backend REST API using Symfony for a Meeio",
     "type": "project",
+    "version": "0.0.3",
     "license": "proprietary",
     "minimum-stability": "stable",
     "prefer-stable": true,
