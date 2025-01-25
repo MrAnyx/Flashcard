@@ -90,7 +90,7 @@
         "cs:fix": "./vendor/bin/php-cs-fixer fix",
         "cs:check": "@cs:fix --dry-run",
         "stan": "@stan:default --ansi --error-format=table",
-        "stan:default": "vendor/bin/phpstan analyse -c phpstan.neon --memory-limit 500M",
+        "stan:default": "vendor/bin/phpstan analyse -c phpstan.dist.neon --memory-limit 500M",
         "stan:github": "@stan:default --error-format=github --quiet --no-progress",
         "test": "php bin/phpunit",
         "test:cov": "@test --coverage-text",

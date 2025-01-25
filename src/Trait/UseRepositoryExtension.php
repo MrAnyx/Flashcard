@@ -20,7 +20,7 @@ trait UseRepositoryExtension
         $operator = $filter->operator->getDoctrineNotation();
 
         if ($filter->operator === OperatorType::LIKE) {
-            $parameter = strtolower($parameter);
+            $parameter = mb_strtolower($parameter);
             $field = "LOWER({$field})";
         }
 
@@ -29,7 +29,7 @@ trait UseRepositoryExtension
             ->setParameter('query', $parameter);
     }
 
-    public function addSort(QueryBuilder &$query, string $alias, Page $page)
+    public function addSort(QueryBuilder &$query, string $alias, Page $page): void
     {
         $field = "{$alias}.{$page->sort}";
         $order = $page->order->value;

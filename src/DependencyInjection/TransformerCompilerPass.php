@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\DependencyInjection;
 
-use App\Modifier\Mutator\MutatorInterface;
-use App\Modifier\Transformer\TransformerInterface;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

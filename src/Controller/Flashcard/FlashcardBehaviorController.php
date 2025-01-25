@@ -91,7 +91,7 @@ class FlashcardBehaviorController extends AbstractRestController
         ReviewRepository $reviewRepository,
         #[Resource(FlashcardVoter::OWNER)] Flashcard $flashcard,
         #[CurrentUser] User $user,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
     ): JsonResponse {
         $reviewRepository->resetBy($user, $flashcard);
         $flashcardRepository->resetBy($user, $flashcard);

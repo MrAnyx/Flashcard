@@ -81,7 +81,6 @@ class FlashcardRepository extends ServiceEntityRepository
             ->where('f.unit = :unit')
             ->setParameter('unit', $unit);
 
-
         if ($filter !== null) {
             $this->addFilter($query, 'f', $filter);
         }
