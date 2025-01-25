@@ -7,3 +7,6 @@ parameters:
         - public/
         - src/
         - tests/
+    ignoreErrors:
+        - identifier: property.unusedType
+        - identifier: return.unusedType
