@@ -107,7 +107,7 @@ class FlashcardBehaviorController extends AbstractRestController
         EntityManagerInterface $em,
         #[CurrentUser] User $user,
     ): JsonResponse {
-        $cardsToReview = $flashcardRepository->findFlashcardToReview($user, $this->getUserSetting(SettingName::FLASHCARD_PER_SESSION));
+        $cardsToReview = $flashcardRepository->findFlashcardToReviewBy(null, $user, $this->getUserSetting(SettingName::FLASHCARD_PER_SESSION));
 
         if (\count($cardsToReview) === 0) {
             return $this->json([

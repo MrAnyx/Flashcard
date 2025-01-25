@@ -32,6 +32,8 @@ doctrine:
         dql:
             datetime_functions:
                 date: App\Doctrine\DateFunction
+            numeric_functions:
+                random: App\Doctrine\RandomFunction
 
 when@test:
     doctrine:

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\EventSubscriber;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,6 +17,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly LoggerInterface $logger,
+        #[Autowire("kernel.debug")]
+        private readonly bool $isDebug
     ) {
     }
 
@@ -34,7 +37,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         $response = new JsonResponse(
             [
                 'message' => Response::$statusTexts[$statusCode],
-                'details' => $statusCode === Response::HTTP_INTERNAL_SERVER_ERROR ? 'An error occured' : $exception->getMessage(),
+                'details' => $statusCode === Response::HTTP_INTERNAL_SERVER_ERROR && !$this->isDebug ? 'An error occured' : $exception->getMessage(),
             ],
             $statusCode
         );
