@@ -132,28 +132,10 @@ class FlashcardRepository extends ServiceEntityRepository
             ->execute();
     }
 
-    public function findFlashcardToReview(User $user, int $cardsToReview)
-    {
-        $result = $this->createQueryBuilder('f')
-            ->select('f', 'u', 't')
-            ->join('f.unit', 'u')
-            ->join('u.topic', 't')
-            ->where('t.author = :user')
-            ->andWhere('f.nextReview <= :today OR f.nextReview IS NULL')
-            ->orderBy('f.nextReview', 'ASC')
-            ->setMaxResults($cardsToReview)
-            ->setParameter('user', $user)
-            ->setParameter('today', new \DateTimeImmutable())
-            ->getQuery()
-            ->getResult();
-
-        return $result;
-    }
-
     /**
      * @return Flashcard[]
      */
-    public function findFlashcardToReviewBy(Unit|Topic $reviewBy, User $user, int $cardsToReview): array
+    public function findFlashcardToReviewBy(Unit|Topic|null $reviewBy, User $user, int $cardsToReview): array
     {
         $qb = $this->createQueryBuilder('f')
             ->select('f', 'u', 't')
@@ -163,16 +145,19 @@ class FlashcardRepository extends ServiceEntityRepository
             ->andWhere('f.nextReview <= :today OR f.nextReview IS NULL');
 
         if ($reviewBy instanceof Unit) {
-            $qb->andWhere('f.unit = :reviewBy');
+            $qb->andWhere('f.unit = :reviewBy')
+                ->setParameter('reviewBy', $reviewBy);
         } elseif ($reviewBy instanceof Topic) {
-            $qb->andWhere('u.topic = :reviewBy');
+            $qb->andWhere('u.topic = :reviewBy')
+                ->setParameter('reviewBy', $reviewBy);
         }
 
-        $qb->orderBy('f.nextReview', 'ASC')
+        $qb->addOrderBy('CASE WHEN f.nextReview IS NULL THEN 0 ELSE 1 END', 'ASC') // Prioritize unreviewed
+            ->addOrderBy('f.nextReview', 'ASC')
+            ->addOrderBy("RANDOM()") // Randomize
             ->setMaxResults($cardsToReview)
             ->setParameter('user', $user)
-            ->setParameter('today', (new \DateTimeImmutable())->format('Y-m-d'))
-            ->setParameter('reviewBy', $reviewBy);
+            ->setParameter('today', (new \DateTimeImmutable())->format('Y-m-d'));
 
         return $qb->getQuery()->getResult();
     }
