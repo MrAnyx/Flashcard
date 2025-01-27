@@ -32,4 +32,14 @@ class SessionScalarController extends AbstractRestController
 
         return $this->json($count);
     }
+
+    #[Route('/sessions/streak', name: 'sessions_streak', methods: ['GET'])]
+    public function getStreak(
+        SessionRepository $sessionRepository,
+        #[CurrentUser] User $user,
+    ) {
+        $streak = $sessionRepository->getStreak($user);
+
+        return $this->json($streak);
+    }
 }
