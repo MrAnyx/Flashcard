@@ -23,8 +23,8 @@ class TestController extends AbstractRestController
         #[CurrentUser]
         User $user
     ): JsonResponse {
-        $streak = $sessionRepository->getStreak($user);
+        $total = $sessionRepository->getTotalSecondesInPractice($user);
 
-        return $this->json($streak);
+        return $this->json($total);
     }
 }

@@ -90,19 +90,23 @@ class SessionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getStreak(User $user)
+    public function getStreak(User $user, bool $withReset = false)
     {
-        $datesRaw = $this->createQueryBuilder('s')
+        $query = $this->createQueryBuilder('s')
             ->select('DATE(s.startedAt) AS date') // Select only the date
+            ->distinct()
             ->leftJoin('s.reviews', 'r') // Join with the reviews table
             ->where('s.author = :user') // Filter by the author
             ->andWhere('r.id IS NOT NULL') // Ensure at least one review exists
-            ->andWhere('r.reset = :reset') // And the review is not a reset
-            // ->groupBy('date') // Group by the date
-            ->setParameter('user', $user) // Bind the user parameter
-            ->setParameter('reset', false) // Bind the reset parameter
-            ->getQuery()
-            ->getResult();
+            ->setParameter('user', $user); // Bind the user parameter
+
+        if (!$withReset) {
+            $query
+                ->andWhere('r.reset = :reset') // And the review is not a reset
+                ->setParameter('reset', false); // Bind the reset parameter;
+        }
+
+        $datesRaw = $query->getQuery()->getResult();
 
         if (count($datesRaw) === 0) {
             return new Streak(current: 0, longest: 0, inDanger: true);
@@ -157,5 +161,28 @@ class SessionRepository extends ServiceEntityRepository
             longest: $longestStreak,
             inDanger: end($dates)?->format('Y-m-d') !== $today->format('Y-m-d'),
         );
+    }
+
+    public function getTotalSecondesInPractice(User $user)
+    {
+        /** @var Period[] $periods */
+        $periods = $this->createQueryBuilder('s')
+            ->select(sprintf(
+                'NEW %s(s.startedAt, s.endedAt)',
+                Period::class
+            ))
+            ->where('s.author = :user')
+            ->andWhere('s.endedAt IS NOT NULL')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+
+        $totalSeconds = array_reduce(
+            $periods,
+            fn ($carry, $item) => $carry + max(0, $item->end->getTimestamp() - $item->start->getTimestamp()),
+            0
+        );
+
+        return $totalSeconds;
     }
 }
