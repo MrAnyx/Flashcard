@@ -19,4 +19,6 @@ enum SettingName: string
     case GRAY_COLOR = 'gray_color';
 
     case SHOW_SESSION_INTRODUCTION = 'show_session_introduction';
+
+    case REVIEWS_PER_DAY_GOAL = 'reviews_per_day_goal';
 }

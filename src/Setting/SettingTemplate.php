@@ -34,6 +34,9 @@ class SettingTemplate
                 new Assert\Choice(['slate', 'cool', 'zinc', 'neutral', 'stone']),
             ]),
             new SettingEntry(SettingName::SHOW_SESSION_INTRODUCTION, true, new BooleanSerializer()),
+            new SettingEntry(SettingName::REVIEWS_PER_DAY_GOAL, 20, new IntegerSerializer(), [
+                new Assert\Range(min: 1, max: 1000),
+            ]),
         ];
     }
 
