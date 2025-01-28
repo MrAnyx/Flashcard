@@ -42,4 +42,14 @@ class SessionScalarController extends AbstractRestController
 
         return $this->json($streak);
     }
+
+    #[Route('/sessions/practice-time', name: 'sessions_practice_time', methods: ['GET'])]
+    public function getTotalSecondesInPractice(
+        SessionRepository $sessionRepository,
+        #[CurrentUser] User $user,
+    ) {
+        $total = $sessionRepository->getTotalSecondesInPractice($user);
+
+        return $this->json($total);
+    }
 }
