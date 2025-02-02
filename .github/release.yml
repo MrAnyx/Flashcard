@@ -1,0 +1,23 @@
+changelog:
+    exclude:
+        labels:
+            - Ignore
+    categories:
+        - title: ✨ New Features
+          labels:
+              - Feature
+        - title: 🐛 Bug Fixes
+          labels:
+              - Bug
+        - title: 📦 Dependencies
+          labels:
+              - Dependencies
+        - title: 📝 Documentation Updates
+          labels:
+              - Documentation
+        - title: 🧰 Maintenance & Refactoring
+          labels:
+              - Refactoring
+        - title: 🏕 Other Changes
+          labels:
+              - "*"
